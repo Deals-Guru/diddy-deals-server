@@ -8,6 +8,17 @@ const productRoutes = require('./routes/productRoutes');
 const app = express();
 const port = process.env.PORT || 5000;
 
+const corsOptions = {
+  origin: [
+    'http://localhost:3001', 
+    'https://fancy-alfajores-b52bf1.netlify.app'
+  ],
+  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+  credentials: true,
+  optionsSuccessStatus: 204
+};
+
+app.use(cors(corsOptions));
 app.use(express.json());
 
 mongoose.connect(process.env.MONGODB_URI, {

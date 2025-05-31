@@ -1,11 +1,12 @@
-// netlify/functions/api.js
+const serverless = require('serverless-http');
 const app = require('../../index');
+
 const allowedOrigins = [
   'http://localhost:3001',
   'https://fancy-alfajores-b52bf1.netlify.app'
 ];
 
-exports.handler = async (event, context) => {
+module.exports.handler = async (event, context) => {
   // Handle OPTIONS requests (preflight)
   if (event.httpMethod === 'OPTIONS') {
     return {
@@ -21,51 +22,44 @@ exports.handler = async (event, context) => {
     };
   }
 
-  // Prepare Express request
-  const request = {
-    method: event.httpMethod,
-    path: event.path.replace('/.netlify/functions/api', ''),
-    headers: event.headers,
-    query: event.queryStringParameters,
-    body: event.body
-  };
+  // Process the request
+  try {
+    const handler = serverless(app);
+    const response = await handler(event, context);
+    
+    // Add CORS headers to the response
+    const origin = event.headers.origin || '';
+    const corsHeaders = {
+      'Access-Control-Allow-Origin': allowedOrigins.includes(origin) 
+        ? origin 
+        : allowedOrigins[0],
+      'Access-Control-Allow-Credentials': 'true',
+      'Vary': 'Origin'
+    };
 
-  // Handle Express response
-  return new Promise((resolve) => {
-    const response = {
-      statusCode: 200,
-      headers: {},
-      setHeader: (key, value) => (response.headers[key] = value),
-      end: (body) => {
-        const origin = request.headers.origin || '';
-        
-        // Add CORS headers
-        response.headers['Access-Control-Allow-Origin'] = 
-          allowedOrigins.includes(origin) ? origin : allowedOrigins[0];
-        response.headers['Access-Control-Allow-Credentials'] = 'true';
-        response.headers['Vary'] = 'Origin';
-        
-        resolve({
-          statusCode: response.statusCode,
-          headers: response.headers,
-          body: body
-        });
+    return {
+      ...response,
+      headers: {
+        ...(response.headers || {}),
+        ...corsHeaders
       }
     };
-
-    // Simulate Express request handling
-    app(request, response);
-  }).catch(error => {
+  } catch (error) {
+    console.error('Handler error:', error);
+    
     return {
-      statusCode: 500,
+      statusCode: error.statusCode || 500,
+      body: JSON.stringify({
+        error: error.message || 'Internal Server Error'
+      }),
       headers: {
         'Content-Type': 'application/json',
-        'Access-Control-Allow-Origin': allowedOrigins.includes(request.headers.origin) 
-          ? request.headers.origin : allowedOrigins[0],
+        'Access-Control-Allow-Origin': allowedOrigins.includes(event.headers.origin) 
+          ? event.headers.origin 
+          : allowedOrigins[0],
         'Access-Control-Allow-Credentials': 'true',
         'Vary': 'Origin'
-      },
-      body: JSON.stringify({ error: error.message })
+      }
     };
-  });
+  }
 };

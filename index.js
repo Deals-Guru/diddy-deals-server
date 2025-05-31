@@ -1,10 +1,9 @@
 require('dotenv').config();
 const express = require('express');
-const serverless = require('serverless-http');
 const mongoose = require('mongoose');
 const cors = require('cors');
-const adminRoutes = require('../routes/adminRoutes');
-const productRoutes = require('../routes/productRoutes');
+const adminRoutes = require('../../routes/adminRoutes');
+const productRoutes = require('../../routes/productRoutes');
 
 const app = express();
 const port = process.env.PORT || 5000;
@@ -22,16 +21,16 @@ mongoose.connect(process.env.MONGODB_URI, {
 .catch(err => console.error(err));
 
 // Routes
-app.use('/.netlify/functions/api/admin', adminRoutes);
-app.use('/.netlify/functions/api/products', productRoutes);
+app.use('/api/admin', adminRoutes);
+app.use('/api/products', productRoutes);
 
 // Basic route
 app.get('/', (req, res) => {
   res.send('Affiliate API Running');
 });
 
-app.listen(port, () => {
-  console.log(`Server running on port ${port}`);
-});
+// app.listen(port, () => {
+//   console.log(`Server running on port ${port}`);
+// });
 
-module.exports.handler = serverless(app);
+module.exports = app;

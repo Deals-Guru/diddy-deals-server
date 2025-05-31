@@ -8,7 +8,6 @@ const productRoutes = require('./routes/productRoutes');
 const app = express();
 const port = process.env.PORT || 5000;
 
-// Middleware
 const corsOptions = {
   origin: [
     'http://localhost:3001', 
@@ -20,9 +19,9 @@ const corsOptions = {
 };
 
 app.use(cors(corsOptions));
+app.options('*', cors(corsOptions));
 app.use(express.json());
 
-// Database connection
 mongoose.connect(process.env.MONGODB_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true
@@ -30,12 +29,10 @@ mongoose.connect(process.env.MONGODB_URI, {
 .then(() => console.log('MongoDB connected'))
 .catch(err => console.error(err));
 
-// Routes
 const router = express.Router();
 router.use('/admin', adminRoutes);
 router.use('/products', productRoutes);
 
-// Basic route
 router.get('/', (req, res) => {
   res.send('Affiliate API Running');
 });

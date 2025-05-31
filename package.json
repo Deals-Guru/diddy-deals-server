@@ -4,8 +4,7 @@
   "description": "Affiliate website",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "netlify-lambda build src"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Tushar",
   "license": "ISC",

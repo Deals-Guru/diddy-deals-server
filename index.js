@@ -22,11 +22,11 @@ mongoose.connect(process.env.MONGODB_URI, {
 
 // Routes
 const router = express.Router();
-app.use('/admin', adminRoutes);
-app.use('/products', productRoutes);
+router.use('/admin', adminRoutes);
+router.use('/products', productRoutes);
 
 // Basic route
-app.get('/', (req, res) => {
+router.get('/', (req, res) => {
   res.send('Affiliate API Running');
 });
 app.use('/.netlify/functions/api', router);

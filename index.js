@@ -11,7 +11,8 @@ const port = process.env.PORT || 5000;
 const corsOptions = {
   origin: [
     'http://localhost:3001', 
-    'https://fancy-alfajores-b52bf1.netlify.app'
+    'https://fancy-alfajores-b52bf1.netlify.app',
+    '*'
   ],
   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
   credentials: true,

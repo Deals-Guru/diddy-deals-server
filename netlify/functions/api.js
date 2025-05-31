@@ -3,7 +3,8 @@ const app = require('../../index');
 
 const allowedOrigins = [
   'http://localhost:3001',
-  'https://fancy-alfajores-b52bf1.netlify.app'
+  'https://fancy-alfajores-b52bf1.netlify.app',
+  '*'
 ];
 
 module.exports.handler = async (event, context) => {
@@ -12,7 +13,7 @@ module.exports.handler = async (event, context) => {
     return {
       statusCode: 204,
       headers: {
-        'Access-Control-Allow-Origin': event.headers.origin || '*',
+        'Access-Control-Allow-Origin': '*',
         'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
         'Access-Control-Allow-Headers': 'Content-Type, Authorization',
         'Access-Control-Allow-Credentials': 'true',
@@ -30,9 +31,7 @@ module.exports.handler = async (event, context) => {
     // Add CORS headers to the response
     const origin = event.headers.origin || '';
     const corsHeaders = {
-      'Access-Control-Allow-Origin': allowedOrigins.includes(origin) 
-        ? origin 
-        : allowedOrigins[0],
+      'Access-Control-Allow-Origin': '*',
       'Access-Control-Allow-Credentials': 'true',
       'Vary': 'Origin'
     };
@@ -54,9 +53,7 @@ module.exports.handler = async (event, context) => {
       }),
       headers: {
         'Content-Type': 'application/json',
-        'Access-Control-Allow-Origin': allowedOrigins.includes(event.headers.origin) 
-          ? event.headers.origin 
-          : allowedOrigins[0],
+        'Access-Control-Allow-Origin': '*',
         'Access-Control-Allow-Credentials': 'true',
         'Vary': 'Origin'
       }

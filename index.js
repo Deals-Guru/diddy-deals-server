@@ -21,13 +21,15 @@ mongoose.connect(process.env.MONGODB_URI, {
 .catch(err => console.error(err));
 
 // Routes
-app.use('/api/admin', adminRoutes);
-app.use('/api/products', productRoutes);
+const router = express.Router();
+app.use('/admin', adminRoutes);
+app.use('/products', productRoutes);
 
 // Basic route
 app.get('/', (req, res) => {
   res.send('Affiliate API Running');
 });
+app.use('/.netlify/functions/api', router);
 
 // app.listen(port, () => {
 //   console.log(`Server running on port ${port}`);

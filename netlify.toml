@@ -6,13 +6,8 @@
 [[headers]]
   for = "/.netlify/functions/*"
   [headers.values]
-    Access-Control-Allow-Origin = "*"                  
-    Access-Control-Allow-Methods = "GET,OPTIONS,POST"  
-    Access-Control-Allow-Headers = "Content-Type,Authorization" 
-    # If you need to expose custom headers back to the browser:
-    # Access-Control-Expose-Headers = "X-My-Custom-Header"
-
-[[headers]]
-  for = "/static/*"
-  [headers.values]
-    Access-Control-Allow-Origin = "*"
+    Access-Control-Allow-Origin = "http://localhost:3001, https://fancy-alfajores-b52bf1.netlify.app"
+    Access-Control-Allow-Methods = "GET, POST, PUT, DELETE, OPTIONS"
+    Access-Control-Allow-Headers = "Content-Type, Authorization, X-Requested-With"
+    Access-Control-Allow-Credentials = "true"
+    Vary = "Origin"

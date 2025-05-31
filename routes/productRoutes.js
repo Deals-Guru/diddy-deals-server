@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const Product = require('../models/Product');
 const Category = require('../models/Category');
+const Slider = require('../models/Slider');
 
 router.get('/categories', async (req, res) => {
   try {
@@ -34,6 +35,15 @@ router.get('/:id/redirect', async (req, res) => {
   } catch (error) {
     res.status(500).json({ error: 'Server error' });
   }
+});
+
+router.get('/sliders', async (req, res) => {
+    try {
+        const sliders = await Slider.find();
+        res.json(sliders);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
 });
 
 module.exports = router;

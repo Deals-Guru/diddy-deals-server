@@ -3,6 +3,7 @@ const app = require('../../index');
 
 const allowedOrigins = [
   'http://localhost:3001',
+  'https://lucky-caramel-f09fe6.netlify.app/',
   'https://fancy-alfajores-b52bf1.netlify.app'
 ];
 

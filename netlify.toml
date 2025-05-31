@@ -1,2 +1,11 @@
 [build]
   functions = "netlify/functions"
+
+[[headers]]
+  for = "/.netlify/functions/*"
+  [headers.values]
+    Access-Control-Allow-Origin = "http://localhost:3001, https://fancy-alfajores-b52bf1.netlify.app"
+    Access-Control-Allow-Methods = "GET, POST, PUT, DELETE, OPTIONS"
+    Access-Control-Allow-Headers = "Content-Type, Authorization"
+    Access-Control-Allow-Credentials = "true"
+    Vary = "Origin"

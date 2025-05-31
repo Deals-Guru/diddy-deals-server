@@ -1,3 +1,6 @@
+const serverless = require('serverless-http');
+const app = require('../../index');
+
 exports.handler = async (event, context) => {
   // Handle preflight requests directly
   if (event.httpMethod === 'OPTIONS') {

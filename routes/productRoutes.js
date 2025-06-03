@@ -16,7 +16,14 @@ router.get('/categories', async (req, res) => {
 router.get('/', async (req, res) => {
   try {
     const { category } = req.query;
-    const products = await Product.find({ category }).populate('category');
+    let products;
+    if (category && category !== 'featured') {
+      products = await Product.find({ category }).populate('category');
+    } else {
+      products = await Product.find().populate('category');
+    }
+
+    products.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
     res.json(products);
   } catch (error) {
     res.status(500).json({ error: 'Server error' });

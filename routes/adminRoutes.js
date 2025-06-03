@@ -11,6 +11,7 @@ router.use(verifyToken);
 router.get('/products', async (req, res) => {
     try {
         const products = await Product.find().populate('category');
+        products.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
         res.json(products);
     } catch (error) {
         res.status(500).json({ error: error.message });
@@ -19,7 +20,7 @@ router.get('/products', async (req, res) => {
 
 router.post('/products', async (req, res) => {
     try {
-        const { name, description, price, affiliateLink, category, imageUrl } = req.body;
+        const { name, description, price, mrp, off, affiliateLink, category, imageUrl } = req.body;
         const id = UUID.v4(); 
 
         const newProduct = new Product({
@@ -27,6 +28,8 @@ router.post('/products', async (req, res) => {
             id,
             description,
             price,
+            mrp,
+            off,
             affiliateLink,
             category,
             imageUrl

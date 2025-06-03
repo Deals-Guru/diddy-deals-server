@@ -15,6 +15,12 @@ const productSchema = new mongoose.Schema({
     type: Number,
     required: true
   },
+  mrp: {
+    type: Number,
+  },
+  off: {
+    type: Number,
+  },
   affiliateLink: {
     type: String,
     required: true

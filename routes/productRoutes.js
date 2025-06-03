@@ -16,8 +16,9 @@ router.get('/categories', async (req, res) => {
 router.get('/', async (req, res) => {
   try {
     const { category } = req.query;
+    console.log(category);
     let products;
-    if (category && category !== 'featured') {
+    if (category && category !== 'Featured') {
       products = await Product.find({ category }).populate('category');
     } else {
       products = await Product.find().populate('category');

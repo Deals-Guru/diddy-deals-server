@@ -32,6 +32,9 @@ const productSchema = new mongoose.Schema({
     type: String, 
   },
   imageUrl: String,
+  shareCode: {
+    type: String
+  },
   createdAt: {
     type: Date,
     default: Date.now

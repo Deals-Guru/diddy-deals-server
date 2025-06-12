@@ -20,7 +20,7 @@ router.get('/products', async (req, res) => {
 
 router.post('/products', async (req, res) => {
     try {
-        const { name, description, price, mrp, off, affiliateLink, category, imageUrl } = req.body;
+        const { name, description, price, mrp, off, affiliateLink, shareCode, category, imageUrl } = req.body;
         const id = UUID.v4(); 
 
         const newProduct = new Product({
@@ -31,6 +31,7 @@ router.post('/products', async (req, res) => {
             mrp,
             off,
             affiliateLink,
+            shareCode,
             category,
             imageUrl
         });

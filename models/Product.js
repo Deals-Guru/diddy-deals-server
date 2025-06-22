@@ -1,20 +1,70 @@
 const mongoose = require('mongoose');
 
+const dealSchema = new mongoose.Schema({
+  platform: {
+    type: String,
+    required: true
+  },
+  price: {
+    type: Number,
+    required: true
+  },
+  discount: {
+    type: Number,
+    default: 0
+  },
+  shareCode: {
+    type: String,
+    default: ''
+  },
+  logo: {
+    type: String,
+    default: ''
+  },
+  color: {
+    type: String,
+    default: ''
+  },
+  link: {
+    type: String,
+    default: ''
+  },
+  badge: {
+    type: String,
+    default: ''
+  }
+}, { _id: false });
+
+const specificationSchema = new mongoose.Schema({
+  key: {
+    type: String
+  },
+  value: {
+    type: String
+  }
+}, { _id: false });
+
 const productSchema = new mongoose.Schema({
   name: {
     type: String,
     required: true
   },
+  brand: String,
+  rating: Number,
+  reviews: Number,
   id: {
     type: String,
     required: true,
     unique: true
   },
-  description: String,
-  price: {
-    type: Number,
-    required: true
+  description: {
+    type: [String],
   },
+  descriptions: {
+    type: [String],
+  },
+  highlights: [String],
+  specifications: [specificationSchema],
   mrp: {
     type: Number,
   },
@@ -23,17 +73,17 @@ const productSchema = new mongoose.Schema({
   },
   affiliateLink: {
     type: String,
-    required: true
   },
+  price: Number,
+  shareCode: String,
   category: {
-    // type: mongoose.Schema.Types.ObjectId,
-    // ref: 'Category',
-    // required: true
     type: String, 
   },
   imageUrl: String,
-  shareCode: {
-    type: String
+  images: [String],
+  deals: {
+    type: [dealSchema],
+    default: []
   },
   createdAt: {
     type: Date,

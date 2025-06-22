@@ -4,6 +4,7 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 const adminRoutes = require('./routes/adminRoutes');
 const productRoutes = require('./routes/productRoutes');
+const migrationRoutes= require('./routes/migrationRoutes')
 const path = require('path');
 
 const app = express();
@@ -38,6 +39,7 @@ mongoose.connection.on('disconnected', () => console.log('MongoDB disconnected')
 const router = express.Router();
 router.use('/admin', adminRoutes);
 router.use('/products', productRoutes);
+router.use('/migration', migrationRoutes);
 
 router.get('/', (req, res) => {
   res.send('Affiliate API Running');

@@ -19,28 +19,45 @@ router.get('/products', async (req, res) => {
 });
 
 router.post('/products', async (req, res) => {
-    try {
-        const { name, description, price, mrp, off, affiliateLink, shareCode, category, imageUrl } = req.body;
-        const id = UUID.v4(); 
+  try {
+    const {
+      name,
+      brand,
+      rating,
+      reviews,
+      description, 
+      highlights,    
+      specifications, 
+      mrp,
+      category,
+      images,       
+      deals           
+    } = req.body;
 
-        const newProduct = new Product({
-            name,
-            id,
-            description,
-            price,
-            mrp,
-            off,
-            affiliateLink,
-            shareCode,
-            category,
-            imageUrl
-        });
+    const id = UUID.v4();
 
-        await newProduct.save();
-        res.status(201).json(newProduct);
-    } catch (error) {
-        res.status(400).json({ error: error.message });
-    }
+    const newProduct = new Product({
+      name,
+      id,
+      brand,
+      rating,
+      reviews,
+      description: Array.isArray(description) ? description : [],
+      highlights: Array.isArray(highlights) ? highlights : [],
+      specifications: specifications && typeof specifications === 'object'
+        ? specifications
+        : {},
+      mrp,
+      category,
+      images: Array.isArray(images) ? images : [],
+      deals: Array.isArray(deals) ? deals : []
+    });
+
+    await newProduct.save();
+    res.status(201).json(newProduct);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
 });
 
 router.put('/products/:id', async (req, res) => {
@@ -50,6 +67,7 @@ router.put('/products/:id', async (req, res) => {
         if (!product) {
             return res.status(404).json({ error: 'Product not found' });
         }
+        // console.log(req.body)
         const updatedProduct = await Product.findByIdAndUpdate(product._id, req.body, { new: true });
         res.json(updatedProduct);
     } catch (error) {

@@ -45,6 +45,16 @@ router.get('/:id/redirect', async (req, res) => {
   }
 });
 
+router.get('/product-detail/:id', async (req, res) => {
+    try {
+        const product = await Product.findById(req.params.id);
+        if (!product) return res.status(404).json({ error: 'Product not found' });
+        res.json(product);
+    } catch (error) {
+        res.status(500).json({ error: 'Server error' });
+    } 
+});
+
 router.get('/sliders', async (req, res) => {
     try {
         const sliders = await Slider.find();

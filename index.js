@@ -36,19 +36,18 @@ mongoose.connection.on('connected', () => console.log('MongoDB connected'));
 mongoose.connection.on('error', err => console.error('MongoDB error:', err));
 mongoose.connection.on('disconnected', () => console.log('MongoDB disconnected'));
 
-const router = express.Router();
-router.use('/admin', adminRoutes);
-router.use('/products', productRoutes);
-router.use('/migration', migrationRoutes);
+app.use('/admin', adminRoutes);
+app.use('/products', productRoutes);
+app.use('/migration', migrationRoutes);
 
-router.get('/', (req, res) => {
+app.get('/', (req, res) => {
   res.send('Affiliate API Running');
 });
 
-app.use(router);  
-
-app.listen(port, () => {
-  console.log(`Server running on port ${port}`);
-});
-
-module.exports = app;
+if (process.env.VERCEL) {
+  module.exports = app;
+} else {
+  app.listen(port, () => {
+    console.log(`Server running on port ${port}`);
+  });
+}
